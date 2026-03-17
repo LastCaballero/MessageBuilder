@@ -1,0 +1,12 @@
+/* Viber-ähnliches Theme */
+:root {
+  --bg-color: #1b1024;
+  --header-bg: #7f3fbf;
+  --footer-bg: #7f3fbf;
+  --bubble-bg: #2b1840;
+  --bubble-text: #ffffff;
+  --btn-primary-bg: #9b59b6;
+  --btn-secondary-bg: #3b2354;
+  --btn-danger-bg: #e74c3c;
+  --drag-handle-color: #b39ddb;
+}

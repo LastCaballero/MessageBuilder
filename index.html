@@ -1,38 +1,42 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-theme="whatsapp">
 <head>
-  <meta charset="UTF-8" />
-  <title>Message-Builder</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/base.css" />
-  <link rel="stylesheet" href="css/theme-whatsapp.css" id="theme-whatsapp" />
-  <link rel="stylesheet" href="css/theme-viber.css" id="theme-viber" disabled />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message-Builder</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app">
-    <header class="app-header">
-      <div class="app-title">Message-Builder</div>
-      <button class="theme-switch" id="themeSwitch" aria-label="Theme wechseln">
-        W
-      </button>
+
+    <header id="app-header" class="glass">
+        <button id="menu-btn" class="icon-btn">≡</button>
+        <h2>Message-Builder</h2>
+        <button id="theme-switcher" class="icon-btn">🎨</button>
     </header>
 
-    <div class="app-controls">
-      <button id="addBubbleBtn" class="btn primary">+ Neue Bubble</button>
+    <section id="conversation-manager" class="glass">
+        <select id="conversation-select"></select>
+        <div class="conv-buttons">
+            <button id="new-conversation-btn" class="pill-btn">Neues Gespräch</button>
+            <button id="delete-conversation-btn" class="pill-btn danger">Löschen</button>
+        </div>
+    </section>
+
+    <main id="chat-area"></main>
+
+    <footer id="input-area" class="glass">
+        <textarea id="message-input" placeholder="Nachricht eingeben..."></textarea>
+        <div id="send-buttons">
+            <button id="send-me" class="send-btn me">Ich</button>
+            <button id="send-partner" class="send-btn partner">Partner</button>
+        </div>
+    </footer>
+
+    <div id="context-menu" class="action-sheet">
+        <button data-action="copy">Kopieren</button>
+        <button data-action="delete" class="danger">Löschen</button>
     </div>
 
-    <main class="bubble-list-container">
-      <div id="bubbleList" class="bubble-list">
-        <!-- Bubbles werden hier dynamisch eingefügt -->
-      </div>
-    </main>
-
-    <footer class="app-footer">
-      <button id="copyAllBtn" class="btn secondary">Alle kopieren</button>
-      <button id="deleteAllBtn" class="btn danger">Alle löschen</button>
-    </footer>
-  </div>
-
-  <script type="module" src="js/app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

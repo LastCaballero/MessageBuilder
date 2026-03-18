@@ -1,0 +1,120 @@
+/* THEMES */
+:root {
+    --bg: #e5ddd5;
+    --header-bg: #075e54;
+    --header-text: white;
+    --bubble-me: #dcf8c6;
+    --bubble-partner: white;
+    --text-color: #111;
+}
+
+[data-theme="viber"] {
+    --bg: #d9c7ff;
+    --header-bg: #7f4cd6;
+    --header-text: white;
+    --bubble-me: #bfa3ff;
+    --bubble-partner: white;
+}
+
+/* GLOBAL */
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    font-family: sans-serif;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    height: 100vh;
+}
+
+/* HEADER */
+#app-header {
+    background: var(--header-bg);
+    color: var(--header-text);
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 40px 1fr 60px;
+    align-items: center;
+}
+
+/* GESPRÄCHSVERWALTUNG */
+#conversation-manager {
+    padding: 10px;
+    background: rgba(255,255,255,0.4);
+    display: grid;
+    gap: 8px;
+}
+
+/* CHAT-BEREICH */
+#chat-area {
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* BUBBLES */
+.bubble {
+    max-width: 75%;
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.me {
+    align-self: flex-start;
+    background: var(--bubble-me);
+}
+
+.partner {
+    align-self: flex-end;
+    background: var(--bubble-partner);
+}
+
+/* EINGABE */
+#input-area {
+    padding: 10px;
+    background: rgba(255,255,255,0.6);
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 8px;
+}
+
+#message-input {
+    width: 100%;
+    height: 60px;
+    resize: none;
+}
+
+#send-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+/* KONTEXTMENÜ */
+#context-menu {
+    position: absolute;
+    display: none;
+    background: white;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    z-index: 999;
+}
+
+#context-menu button {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    background: white;
+    text-align: left;
+}
+
+#context-menu button:hover {
+    background: #eee;
+}

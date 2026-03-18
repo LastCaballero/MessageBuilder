@@ -15,14 +15,15 @@
     </header>
 
     <section id="conversation-manager" class="glass">
+        <label for="conversation-select" class="label-small">Gespräch auswählen</label>
         <select id="conversation-select"></select>
         <div class="conv-buttons">
-            <button id="new-conversation-btn" class="pill-btn">Neues Gespräch</button>
+            <button id="new-conversation-btn" class="pill-btn primary">Neues Gespräch</button>
             <button id="delete-conversation-btn" class="pill-btn danger">Löschen</button>
         </div>
     </section>
 
-    <main id="chat-area"></main>
+    <main id="chat-area" class="glass"></main>
 
     <footer id="input-area" class="glass">
         <textarea id="message-input" placeholder="Nachricht eingeben..."></textarea>

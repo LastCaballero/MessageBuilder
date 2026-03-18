@@ -36,29 +36,44 @@ function loadConversation(name) {
     chatArea.innerHTML = "";
 
     conversations[name].forEach(msg => {
-        addMessage(msg.text, msg.sender, false);
+        addMessage(msg.text, msg.sender, false, msg.id);
     });
 
     save();
 }
 
 /* NACHRICHT HINZUFÜGEN */
-function addMessage(text, sender, saveMsg = true) {
+function addMessage(text, sender, saveMsg = true, existingId = null) {
+    const id = existingId || (Date.now() + Math.random()).toString();
+
     const div = document.createElement("div");
     div.classList.add("bubble", sender);
+    div.dataset.id = id;
     div.textContent = text;
+    div.draggable = true;
 
+    /* Kontextmenü */
     div.addEventListener("contextmenu", e => {
         e.preventDefault();
         contextTarget = div;
         showContextMenu(e.pageX, e.pageY);
     });
 
+    /* Drag & Drop Events */
+    div.addEventListener("dragstart", e => {
+        e.dataTransfer.setData("id", id);
+        div.classList.add("dragging");
+    });
+
+    div.addEventListener("dragend", () => {
+        div.classList.remove("dragging");
+    });
+
     chatArea.appendChild(div);
     chatArea.scrollTop = chatArea.scrollHeight;
 
     if (saveMsg && currentConversation) {
-        conversations[currentConversation].push({ text, sender });
+        conversations[currentConversation].push({ id, text, sender });
         save();
     }
 }
@@ -81,13 +96,13 @@ contextMenu.addEventListener("click", e => {
     const action = e.target.dataset.action;
 
     if (action === "copy") {
-        navigator.clipboard.writeText(contextTarget.textContent);
+        navigator.clipboard.writeText(contextTarget.textContent || "");
     }
 
     if (action === "delete") {
-        const text = contextTarget.textContent;
+        const id = contextTarget.dataset.id;
         conversations[currentConversation] =
-            conversations[currentConversation].filter(m => m.text !== text);
+            conversations[currentConversation].filter(m => m.id !== id);
         contextTarget.remove();
         save();
     }
@@ -98,14 +113,14 @@ contextMenu.addEventListener("click", e => {
 /* SENDEN */
 document.getElementById("send-me").addEventListener("click", () => {
     if (input.value.trim() !== "") {
-        addMessage(input.value, "me");
+        addMessage(input.value.trim(), "me");
         input.value = "";
     }
 });
 
 document.getElementById("send-partner").addEventListener("click", () => {
     if (input.value.trim() !== "") {
-        addMessage(input.value, "partner");
+        addMessage(input.value.trim(), "partner");
         input.value = "";
     }
 });
@@ -115,7 +130,9 @@ document.getElementById("new-conversation-btn").addEventListener("click", () => 
     const name = prompt("Name des neuen Gesprächs:");
     if (!name) return;
 
-    conversations[name] = [];
+    if (!conversations[name]) {
+        conversations[name] = [];
+    }
     refreshDropdown();
     select.value = name;
     loadConversation(name);
@@ -136,8 +153,53 @@ document.getElementById("delete-conversation-btn").addEventListener("click", () 
 
 /* DROPDOWN WECHSEL */
 select.addEventListener("change", () => {
-    loadConversation(select.value);
+    if (select.value) {
+        loadConversation(select.value);
+    }
 });
+
+/* DRAG & DROP IM CHAT-BEREICH */
+chatArea.addEventListener("dragover", e => {
+    e.preventDefault();
+    const afterElement = getDragAfterElement(chatArea, e.clientY);
+    const dragging = document.querySelector(".bubble.dragging");
+    if (!dragging) return;
+
+    if (afterElement == null) {
+        chatArea.appendChild(dragging);
+    } else {
+        chatArea.insertBefore(dragging, afterElement);
+    }
+});
+
+chatArea.addEventListener("drop", () => {
+    // Reihenfolge im Speicher aktualisieren
+    if (!currentConversation) return;
+
+    const ids = [...chatArea.querySelectorAll(".bubble")].map(b => b.dataset.id);
+    conversations[currentConversation].sort(
+        (a, b) => ids.indexOf(a.id) - ids.indexOf(b.id)
+    );
+    save();
+});
+
+function getDragAfterElement(container, y) {
+    const elements = [...container.querySelectorAll(".bubble:not(.dragging)")];
+
+    return elements.reduce(
+        (closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+
+            if (offset < 0 && offset > closest.offset) {
+                return { offset, element: child };
+            } else {
+                return closest;
+            }
+        },
+        { offset: Number.NEGATIVE_INFINITY, element: null }
+    ).element;
+}
 
 /* INIT */
 refreshDropdown();

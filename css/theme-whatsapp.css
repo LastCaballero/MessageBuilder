@@ -1,0 +1,36 @@
+/* WhatsApp Theme */
+:root {
+    --bg-color: #121B22;
+    --header-bg: #075E54;
+    --chat-bg: #1E2A32;
+    --user-bubble: #005C4B;
+    --partner-bubble: #202C33;
+    --input-bg: #202C33;
+    --action-color: #AEBAC1;
+}
+
+.message-bubble.user {
+    color: #E9EDF0;
+}
+
+.message-bubble.partner {
+    color: #E9EDF0;
+}
+
+.message-time {
+    color: #8696A0;
+}
+
+.type-btn.active {
+    background: #005C4B;
+    color: white;
+}
+
+#message-input {
+    background: #2A3942;
+    color: #E9EDF0;
+}
+
+#message-input::placeholder {
+    color: #8696A0;
+}

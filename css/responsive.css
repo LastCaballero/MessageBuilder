@@ -1,0 +1,48 @@
+/* Responsive Anpassungen für Smartphones */
+@media (max-width: 768px) {
+    .app-container {
+        max-width: 100%;
+    }
+    
+    .message-actions {
+        gap: 8px;
+    }
+    
+    .action-btn {
+        font-size: 11px;
+        padding: 4px 6px;
+    }
+}
+
+/* Tastatur aktiv - automatische Anpassung */
+@media (max-height: 500px) {
+    .chat-area {
+        min-height: 150px;
+    }
+    
+    .header h1 {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+    
+    .conversation-controls {
+        margin-bottom: 8px;
+    }
+}
+
+/* Touch-Optimierung */
+@media (hover: none) and (pointer: coarse) {
+    .btn, .action-btn, .send-btn, .type-btn, .theme-btn {
+        cursor: default;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .action-btn:active {
+        opacity: 0.6;
+    }
+}
+
+/* Verhindere Zoom bei Input-Fokus auf iOS */
+input, textarea, select {
+    font-size: 16px;
+}

@@ -1,0 +1,34 @@
+/* Viber Theme */
+:root {
+    --bg-color: #F8F9FA;
+    --header-bg: #7364F2;
+    --chat-bg: #FFFFFF;
+    --user-bubble: #7364F2;
+    --partner-bubble: #F0F0F0;
+    --input-bg: #FFFFFF;
+    --action-color: #6C757D;
+}
+
+.message-bubble.user {
+    color: white;
+    border-radius: 20px 20px 4px 20px;
+}
+
+.message-bubble.partner {
+    color: #333;
+    border-radius: 20px 20px 20px 4px;
+}
+
+.message-time {
+    color: #999;
+}
+
+.type-btn.active {
+    background: #7364F2;
+    color: white;
+}
+
+#message-input {
+    background: #F8F9FA;
+    border: 1px solid #E9ECEF;
+}

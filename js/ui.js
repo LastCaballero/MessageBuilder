@@ -11,10 +11,10 @@ const UIManager = {
         this.typeUserBtn = document.getElementById('message-type-user');
         this.typePartnerBtn = document.getElementById('message-type-partner');
     },
-    
+
     updateConversationSelect() {
         this.conversationSelect.innerHTML = '<option value="">-- Gespräch auswählen oder erstellen --</option>';
-        
+
         ConversationManager.conversations.forEach(conv => {
             const option = document.createElement('option');
             option.value = conv.id;
@@ -25,7 +25,7 @@ const UIManager = {
             this.conversationSelect.appendChild(option);
         });
     },
-    
+
     updateConversationInfo() {
         if (ConversationManager.activeConversation) {
             const msgCount = ConversationManager.activeConversation.messages.length;
@@ -35,45 +35,54 @@ const UIManager = {
             this.conversationInfo.textContent = '✨ Kein Gespräch ausgewählt';
         }
     },
-    
+
+    // UI Manager - Aktualisierte renderMessages Methode
     renderMessages() {
         if (!ConversationManager.activeConversation || ConversationManager.activeConversation.messages.length === 0) {
             this.messagesContainer.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-icon">💬</div>
-                    <p>Keine Nachrichten</p>
-                    <small>Schreibe deine erste Nachricht</small>
-                </div>
-            `;
+            <div class="empty-state">
+                <div class="empty-icon">💬</div>
+                <p>Keine Nachrichten</p>
+                <small>Schreibe deine erste Nachricht</small>
+                <small style="display: block; margin-top: 10px;">💡 Tipp: Nachrichten per Drag & Drop verschieben</small>
+            </div>
+        `;
             return;
         }
-        
+
         this.messagesContainer.innerHTML = '';
-        
+
         ConversationManager.activeConversation.messages.forEach(message => {
             const messageWrapper = document.createElement('div');
             messageWrapper.className = `message-wrapper ${message.type}`;
-            
+            messageWrapper.setAttribute('draggable', 'true');
+            messageWrapper.setAttribute('data-message-id', message.id);
+
+            // Stil für Drag & Drop
+            messageWrapper.style.cursor = 'grab';
+            messageWrapper.style.userSelect = 'none';
+
             const bubble = document.createElement('div');
             bubble.className = `message-bubble ${message.type}`;
             bubble.innerHTML = `
-                <div class="message-text">${this.escapeHtml(message.text)}</div>
-                <div class="message-time">${message.timestamp}${message.edited ? ' · bearbeitet' : ''}</div>
-            `;
-            
+            <div class="message-text">${this.escapeHtml(message.text)}</div>
+            <div class="message-time">${message.timestamp}${message.edited ? ' · bearbeitet' : ''}</div>
+        `;
+
             const actions = document.createElement('div');
             actions.className = 'message-actions';
             actions.innerHTML = `
-                <button class="action-btn copy-btn" data-id="${message.id}">📋 Kopieren</button>
-                <button class="action-btn edit-btn" data-id="${message.id}">✏️ Editieren</button>
-                <button class="action-btn delete-btn" data-id="${message.id}">🗑 Löschen</button>
-            `;
-            
+            <button class="action-btn copy-btn" data-id="${message.id}">📋 Kopieren</button>
+            <button class="action-btn edit-btn" data-id="${message.id}">✏️ Editieren</button>
+            <button class="action-btn delete-btn" data-id="${message.id}">🗑 Löschen</button>
+            <button class="action-btn drag-handle" style="cursor: grab;">⋮⋮ Verschieben</button>
+        `;
+
             messageWrapper.appendChild(bubble);
             messageWrapper.appendChild(actions);
             this.messagesContainer.appendChild(messageWrapper);
         });
-        
+
         // Event-Listener für Actions
         document.querySelectorAll('.copy-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -85,7 +94,7 @@ const UIManager = {
                 }
             });
         });
-        
+
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -105,7 +114,7 @@ const UIManager = {
                 }
             });
         });
-        
+
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -121,22 +130,22 @@ const UIManager = {
                 }
             });
         });
-        
+
         // Automatisch nach unten scrollen
         this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
     },
-    
+
     escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     },
-    
+
     clearInput() {
         this.messageInput.value = '';
         this.messageInput.style.height = 'auto';
     },
-    
+
     adjustTextareaHeight() {
         this.messageInput.style.height = 'auto';
         this.messageInput.style.height = Math.min(this.messageInput.scrollHeight, 100) + 'px';

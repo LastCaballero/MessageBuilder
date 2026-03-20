@@ -1,0 +1,43 @@
+/* Drag & Drop Styles */
+.message-wrapper[draggable="true"] {
+    cursor: grab;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.message-wrapper[draggable="true"]:active {
+    cursor: grabbing;
+}
+
+.message-wrapper.drag-over {
+    transform: translateY(8px);
+    transition: transform 0.2s ease;
+}
+
+.message-wrapper.drag-over::before {
+    content: '⬇️';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -20px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.drag-handle {
+    cursor: grab !important;
+}
+
+.drag-handle:active {
+    cursor: grabbing !important;
+}
+
+/* Animation für Drag & Drop */
+@keyframes dragPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.message-wrapper[draggable="true"]:hover {
+    animation: dragPulse 0.5s ease;
+}

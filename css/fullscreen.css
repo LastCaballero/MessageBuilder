@@ -1,0 +1,210 @@
+/* Fullscreen Button Styles - Verbesserte Positionierung */
+.fullscreen-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    z-index: 10;
+}
+
+.fullscreen-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.fullscreen-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.fullscreen-btn.fullscreen-active {
+    background: rgba(255, 59, 48, 0.8);
+}
+
+.fullscreen-btn.fullscreen-active:hover {
+    background: rgba(255, 59, 48, 0.9);
+}
+
+/* Header Layout optimieren */
+.header {
+    position: relative;
+    padding-right: 50px !important; /* Platz für Fullscreen-Button */
+}
+
+.header h1 {
+    margin-right: 40px;
+    font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Conversation Controls anpassen */
+.conversation-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.select-wrapper {
+    flex: 1;
+    min-width: 150px;
+}
+
+.button-group {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* Theme Controls */
+.theme-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+/* Fullscreen Mode Styles */
+:-webkit-full-screen {
+    background-color: var(--bg-color, #121B22);
+}
+
+:-moz-full-screen {
+    background-color: var(--bg-color, #121B22);
+}
+
+:fullscreen {
+    background-color: var(--bg-color, #121B22);
+}
+
+/* Anpassungen für Fullscreen */
+:fullscreen .app-container,
+:-webkit-full-screen .app-container,
+:-moz-full-screen .app-container {
+    max-width: 100%;
+    height: 100vh;
+}
+
+:fullscreen .chat-area,
+:-webkit-full-screen .chat-area,
+:-moz-full-screen .chat-area {
+    height: calc(100vh - 140px);
+}
+
+/* Sichere Bereiche für Notch & Co */
+:root {
+    --safe-area-inset-top: env(safe-area-inset-top);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
+}
+
+:fullscreen .header {
+    padding-top: calc(12px + var(--safe-area-inset-top, 0px));
+}
+
+:fullscreen .input-area {
+    padding-bottom: calc(12px + var(--safe-area-inset-bottom, 0px));
+}
+
+/* Vollbild-Animation */
+@keyframes fullscreenEnter {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+:fullscreen .app-container {
+    animation: fullscreenEnter 0.3s ease;
+}
+
+/* iOS spezifische Anpassungen */
+@supports (padding: max(0px)) {
+    .header {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(50px, env(safe-area-inset-right));
+    }
+    
+    .input-area {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+    }
+}
+
+/* Verhindere Scrollen im Fullscreen-Modus */
+:fullscreen body {
+    overflow: hidden;
+}
+
+:fullscreen .chat-area {
+    overflow-y: auto;
+}
+
+/* Touch-Optimierung für Fullscreen-Button */
+@media (max-width: 768px) {
+    .fullscreen-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 24px;
+        right: 8px;
+    }
+    
+    .header {
+        padding-right: 56px !important;
+    }
+    
+    .header h1 {
+        font-size: 16px;
+        margin-right: 20px;
+    }
+}
+
+/* Wenn die Tastatur aktiv ist - Button etwas anpassen */
+.input-area:focus-within ~ .fullscreen-btn {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Verbesserte Dropdown-Zugänglichkeit */
+.conversation-select {
+    position: relative;
+    z-index: 5;
+}
+
+/* Verhindere Überlappung bei kleinen Bildschirmen */
+@media (max-width: 480px) {
+    .conversation-controls {
+        flex-direction: column;
+    }
+    
+    .button-group {
+        justify-content: stretch;
+    }
+    
+    .header {
+        padding-right: 50px !important;
+    }
+    
+    .header h1 {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+}

@@ -1,4 +1,4 @@
-// Main App
+// Main App - Aktualisierte Initialisierung mit Fullscreen
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize all managers
     StorageManager.getData();
@@ -10,6 +10,15 @@ document.addEventListener('DOMContentLoaded', () => {
     UIManager.updateConversationSelect();
     UIManager.updateConversationInfo();
     UIManager.renderMessages();
+    
+    // Initialize Drag & Drop
+    DragDropManager.init();
+    
+    // Initialize Fullscreen
+    FullscreenManager.init();
+    FullscreenManager.preventZoom();
+    
+    // ... Rest des Codes bleibt unverändert (alle Event-Listener von vorher) ...
     
     // Event: Send Message
     const sendMessage = () => {
